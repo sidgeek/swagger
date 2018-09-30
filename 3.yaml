@@ -1,0 +1,47 @@
+# 错误提示不好，会导致误解，如修改 integer 为 interger 可以看到迷惑的报错
+
+swagger: "2.0"
+
+info:
+  version: 1.0.0
+  title: Simple ApI
+  description: A simple api to learn how to write openApi specification
+
+schemes:
+  - https
+
+host: simple.api
+basePath: /openapi101
+
+paths:
+  /persons:
+    get:
+      summary: Get some persons
+      description: Returns a list containing all persons. The list supports paging
+
+      # START #####################################################################
+      parameters:
+        - name: pageSize
+          in: query
+          description: Number of persons returned
+          type: integer
+        - name: pageNumber
+          in: query
+          description: Page Number
+          type: integer
+      #  END  #####################################################################
+      responses:
+        200:
+          description: A list of Person
+          schema:
+            type: array
+            items:
+              required:
+                - username
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                username:
+                  type: string

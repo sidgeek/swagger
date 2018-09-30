@@ -1,0 +1,55 @@
+swagger: '2.0'
+
+# This is your document metadata
+info:
+  version: "0.0.1"
+  title: Todo App
+schema: {
+        }
+host: localhost:3000
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/x-www-form-urlencoded
+basePath: /
+
+paths:
+  # This is a path endpoint. Change it.
+  /tasks:
+    post:
+      description: |
+        Add 'Task' object.
+
+      # An example parameter that is in query and is required
+      parameters:
+        - in: query
+          name: name
+          description: unique object task name
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: description
+          description: task description
+          required: true
+          schema:
+            type: string
+
+      responses:
+        # Response code
+        200: 
+          description: Successful response
+          # A schema describing your response object.
+          # Use JSON Schema format
+          schema:
+              title: Return String
+              type: string
+              example: "Task added succesfully"
+        500:
+          description: Error
+          schema: 
+            type: string
+            example: "Could not add Task"

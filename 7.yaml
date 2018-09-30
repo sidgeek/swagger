@@ -1,0 +1,117 @@
+# 错误提示不好，会导致误解，如修改 integer 为 interger 可以看到迷惑的报错
+
+swagger: "2.0"
+
+info:
+  version: 1.0.0
+  title: Simple ApI
+  description: A simple api to learn how to write openApi specification
+
+schemes:
+  - https
+
+host: simple.api
+basePath: /openapi101
+
+paths:
+  /persons:
+    get:
+      summary: Get some persons
+      description: Returns a list containing all persons. The list supports paging
+
+      parameters:
+        - name: pageSize
+          in: query
+          description: Number of persons returned
+          type: integer
+        - name: pageNumber
+          in: query
+          description: Page Number
+          type: integer
+      
+      responses:
+        200:
+          description: A list of Person
+          schema:
+            $ref: "#/definitions/Persons"
+
+        500:
+          $ref: "#/responses/Standar500ErrorRespose"
+
+    post:
+      summary: Create a person
+      description: Adds a person to the persons list.
+
+      parameters:
+        - name: person
+          in: body
+          description: The person to create
+          schema:
+            $ref: "#/definitions/Persons"
+
+      responses:
+        204:
+          description: Persons sucesfully created
+
+        400:
+          description: persons counld't have been created
+
+        500:
+          $ref: "#/responses/Standar500ErrorRespose"
+
+
+  /persons/{username}:
+    get:
+      summary: Get a person
+      description: Returns a signal person for its username
+
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: The person's username
+          type: string
+      responses:
+        200:
+          description: A Person
+          schema:
+            $ref: "#/definitions/Persons"
+
+        404:
+          description: The Person does not exists
+
+        500:
+          $ref: "#/responses/Standar500ErrorRespose"
+
+
+
+definitions:
+  Person:
+    required:
+      - username
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      username:
+        type: string
+  Persons:
+    type: array
+    items:
+      $ref: "#/definitions/Person"
+
+# START #####################################################################
+  Error:
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+
+responses:
+  Standar500ErrorRespose:
+    description: An unexpected error occured
+    schema:
+      $ref: "#/definitions/Error"
+#  END  #####################################################################
